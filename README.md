@@ -2,7 +2,7 @@
 
 A tested Java 17 library and command-line tool built from a set of solved introductory programming exercises, extended with correct algorithms, a seeded tournament simulation, and statistical verification.
 
-> **Project history:** originally created in 2019, modernized in 2026. The 2019 code remains available in the Git history; the 2026 version is a rewrite, not a record of what was written at that time.
+> **Project history:** originally created in 2019, modernized in 2026. The 2019 code is no longer part of the published Git history; the 2026 version is a rewrite, not a record of what was written at that time.
 
 ## Purpose
 
@@ -63,13 +63,13 @@ Requirements: JDK 17 (the only version tested), Python 3 with SQLite 3.37 or lat
 
 ```bash
 ./scripts/run-tests.sh
-java -jar target/p3-exercises-1.0.0.jar --help
+java -jar target/p3-exercises-1.0.1.jar --help
 ```
 
 ## Usage guide
 
 ```bash
-alias p3='java -jar target/p3-exercises-1.0.0.jar'
+alias p3='java -jar target/p3-exercises-1.0.1.jar'
 
 p3 leap-year 1900 2000
 p3 first-positive -3 0 2.5

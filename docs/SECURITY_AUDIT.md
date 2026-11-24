@@ -44,16 +44,15 @@ This was a focused review of a small codebase. It was not an independent penetra
 - GitHub Actions pinned to full commit SHAs that match their upstream release tags, with read-only `contents` permission and no persisted checkout credentials.
 - Dependabot configured for Maven and GitHub Actions.
 
-## Open items
+## Items resolved after the audit
 
-| ID | Severity | Item | Required action |
+| ID | Severity | Item | Resolution |
 | --- | --- | --- | --- |
-| O-01 | Low | Git history still contains the masked account name from F-01 and the masked personal details from F-02 | Owner decision on whether to rewrite history; this branch does not rewrite it |
-| O-02 | Informational | Remote branches `master`, `dev`, and `stg` still hold the legacy tree until this work is merged | Owner decision |
+| O-01 | Low | Git history contained the masked account name from F-01 and the masked personal details from F-02 | Resolved by the 2026-11-24 history rewrite: pre-2026 commits are no longer in any branch or tag. Old commits may remain reachable by direct SHA on GitHub until unreferenced objects are purged, so anything that was ever published should still be treated as exposed |
+| O-02 | Informational | Remote branches `master`, `dev`, and `stg` held the legacy tree | Resolved: all three branches point at the released 2026 code since 2026-11-24 |
 
 ## Not verified
 
-- The GitHub Actions workflow has not run on GitHub; the same script was run locally.
 - Only JDK 17 was tested.
 - Whether the build ever reached the vulnerable `plexus-utils` code path before F-08 was fixed.
 - OSV reports only published advisories. A clean result does not prove the absence of vulnerabilities.

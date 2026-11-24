@@ -2,7 +2,15 @@
 
 This project follows [Semantic Versioning](https://semver.org/) and the [Keep a Changelog](https://keepachangelog.com/) format.
 
-## [1.0.0] - 2026-11-24
+## [1.0.1] - 2026-11-24
+
+Documentation corrections only. No change to code behaviour.
+
+### Changed
+
+- README, release notes, and security audit now reflect the published 1.0.0 release and the rewritten Git history, which no longer contains the 2019 code.
+
+## [1.0.0] - 2026-11-24 (released)
 
 First versioned release, and a complete rewrite of the unversioned 2019 exercises.
 
