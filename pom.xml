@@ -16,8 +16,8 @@
     <project.build.outputTimestamp>2026-11-24T00:00:00Z</project.build.outputTimestamp>
     <junit.version>5.14.4</junit.version>
     <jqwik.version>1.10.2</jqwik.version>
-    <plexus-utils.3x.version>3.6.1</plexus-utils.3x.version>
-    <plexus-utils.4x.version>4.0.3</plexus-utils.4x.version>
+    <plexus-utils.3x.version>4.2.0</plexus-utils.3x.version>
+    <plexus-utils.4x.version>4.2.0</plexus-utils.4x.version>
   </properties>
   <dependencyManagement>
     <dependencies>
