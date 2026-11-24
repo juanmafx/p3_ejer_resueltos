@@ -15,7 +15,7 @@ final class SimulateCommand implements Command {
     private static final int FIXED_ARGUMENTS = 3;
     private static final int MAX_TEAMS = 64;
     private static final int MAX_CLI_RUNS = 100_000;
-    private static final long MAX_SIMULATED_MATCHES = 20_000_000L;
+    private static final String FORMULA_PREFIXES = "=+-@\uFF1D\uFF0B\uFF0D\uFF20";
 
     @Override
     public String name() {
@@ -37,9 +37,6 @@ final class SimulateCommand implements Command {
         List<TeamStrength> teams = args.subList(FIXED_ARGUMENTS, args.size()).stream()
                 .map(SimulateCommand::parseTeam)
                 .toList();
-        if ((long) runs * teams.size() * (teams.size() - 1) > MAX_SIMULATED_MATCHES) {
-            throw new IllegalArgumentException("simulation exceeds " + MAX_SIMULATED_MATCHES + " matches");
-        }
         SimulationConfig config = new SimulationConfig(
                 teams,
                 Arguments.parseDouble(args.get(2), "homeAdvantage"),
@@ -59,7 +56,7 @@ final class SimulateCommand implements Command {
     }
 
     private static String csvCell(String value) {
-        boolean formulaLike = "=+-@".indexOf(value.charAt(0)) >= 0;
+        boolean formulaLike = FORMULA_PREFIXES.indexOf(value.charAt(0)) >= 0;
         String guarded = formulaLike ? "'" + value : value;
         return guarded.contains(",") || guarded.contains("\"")
                 ? "\"" + guarded.replace("\"", "\"\"") + "\""

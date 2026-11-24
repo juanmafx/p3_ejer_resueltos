@@ -149,6 +149,32 @@ class ApplicationTest {
     }
 
     @Test
+    void leapYearPrintsNothingWhenAnyYearIsInvalid() {
+        assertEquals(Application.EXIT_USAGE, run("leap-year", "2000", "invalid"));
+        assertEquals("", out());
+    }
+
+    @Test
+    void personPrintsNothingWhenMetricsAreInvalid() {
+        assertEquals(Application.EXIT_USAGE, run("person", "Ada", "Lovelace", "1990", "0", "70"));
+        assertEquals("", out());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"1d", "1f", "0x1p3", "NaN", "Infinity", " 1"})
+    void rejectsNonDecimalNumberForms(String token) {
+        assertEquals(Application.EXIT_USAGE, run("first-positive", token));
+        assertEquals("", out());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"\uFF1DSUM(A1)", "\uFF0Bcmd", "\uFF0Dcmd", "\uFF20cmd"})
+    void simulateNeutralizesFullWidthFormulas(String team) {
+        assertEquals(Application.EXIT_SUCCESS, run("simulate", "1", "10", "1", team + ":1.5", "B:1.5"));
+        assertTrue(out().contains("'" + team + ","));
+    }
+
+    @Test
     void helpSucceedsAndNoArgumentsFail() {
         assertEquals(Application.EXIT_SUCCESS, run("--help"));
         assertEquals(Application.EXIT_USAGE, run());

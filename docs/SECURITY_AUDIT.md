@@ -1,8 +1,8 @@
 # Security Audit
 
-- **Date:** 2026-11-23
-- **Scope:** all tracked files and the full history reachable from local and remote-tracking refs (2 commits)
-- **Method:** manual source review, pattern-based secret scan, static inspection of tracked class files without executing them, and an OSV query for the direct and engine test dependencies
+- **Date:** 2026-11-24
+- **Scope:** all tracked files on `modernize/2026` and the full history reachable from local and remote-tracking refs
+- **Method:** manual source review, gitleaks 8.30.1 with redaction over the history and working tree, an OSV query for every JAR used by a clean build and bundled with the pinned Maven distribution, static bytecode inspection of the legacy class files without executing them, and a seeded fuzz run of 400,000 random CLI argument vectors
 
 This was a focused review of a small codebase. It was not an independent penetration test.
 
@@ -10,13 +10,15 @@ This was a focused review of a small codebase. It was not an independent penetra
 
 | Area | Result |
 | --- | --- |
-| Private keys and credentials | None found by the pattern scan in the tree or history |
+| Secrets | gitleaks reported no findings in the history or working tree |
 | Injection (SQL, command, template) | Not applicable: no SQL execution, subprocess, or template use in the Java code |
 | XSS and CSRF | Not applicable: no web interface |
+| Authentication and 2FA | Not applicable: no accounts, sessions, or stored credentials |
+| Cryptography | Not applicable: the project does not hash or encrypt data, and its seeded generator is not used for security |
 | Unsafe evaluation or deserialization | None |
-| Weak hashing | None: the project does not hash data |
 | Runtime dependencies | None |
-| Test dependencies | OSV returned no known advisories for JUnit Jupiter 5.14.4, JUnit Platform Engine 1.14.4, or jqwik 1.10.2 on 2026-11-23 |
+| Build and test dependencies | OSV returned no known advisories on 2026-11-24 for the 67 JARs used by the clean build or the 50 JARs bundled with Maven 3.10.2 |
+| CLI fuzzing | No uncaught exceptions, unexpected exit codes, control characters in output, or partial output on failure |
 
 ## Findings fixed on this branch
 
@@ -27,14 +29,19 @@ This was a focused review of a small codebase. It was not an independent penetra
 | F-03 | Low | Compiled class files were tracked | Removed and ignored |
 | F-04 | Low | Unvalidated input could crash programs or produce invalid state | Bounded validation at construction and parsing |
 | F-05 | Low | Terminal control sequences could reach output through labels | Control, format, and separator characters rejected; invalid tokens are not echoed |
-| F-06 | Low | CSV output could carry spreadsheet formulas | Formula-leading cells are neutralized and CSV is quoted |
-| F-07 | Low | Large simulation inputs could exhaust CPU | Run, team, and total match limits enforced |
+| F-06 | Low | CSV output could carry spreadsheet formulas | Formula-leading cells, including full-width prefixes, are neutralized and CSV is quoted |
+| F-07 | Low | Large simulation inputs could exhaust CPU | Run, team, and total match limits enforced in the library and the CLI |
+| F-08 | High advisory, build time only | The clean and resources plugins resolved `plexus-utils` versions affected by CVE-2025-67030 (directory traversal in `Expand`) | Plugin dependencies overridden to fixed versions 4.0.3 and 3.6.1 |
+| F-09 | Low | CI could publish the stale committed test report after a failed run | The report artifact is uploaded only on success; raw Surefire output is uploaded on failure |
+| F-10 | Low | Labels made only of Unicode space characters passed the blank check | Rejected as blank |
+| F-11 | Low | Failed commands could write partial output before exiting with an error | Input is fully validated before output starts |
+| F-12 | Low | Numeric arguments accepted Java-only forms such as `1d` and `0x1p3` | Only plain decimal notation is accepted |
 
 ## Supply chain controls
 
-- Maven distribution verified against a pinned SHA-512 checksum.
-- Dependencies and plugins pinned to exact versions, resolved with strict checksums.
-- GitHub Actions pinned to full commit SHAs, with read-only `contents` permission and no persisted checkout credentials.
+- Maven distribution verified against a pinned SHA-512 checksum, which matches the value published on Maven Central.
+- Direct dependencies and all build plugins pinned to exact versions, resolved with strict checksums.
+- GitHub Actions pinned to full commit SHAs that match their upstream release tags, with read-only `contents` permission and no persisted checkout credentials.
 - Dependabot configured for Maven and GitHub Actions.
 
 ## Open items
@@ -42,9 +49,11 @@ This was a focused review of a small codebase. It was not an independent penetra
 | ID | Severity | Item | Required action |
 | --- | --- | --- | --- |
 | O-01 | Low | Git history still contains the masked account name from F-01 and the masked personal details from F-02 | Owner decision on whether to rewrite history; this branch does not rewrite it |
-| O-02 | Informational | Other remote branches still hold the legacy tree until this work is merged and they are retired | Owner decision |
+| O-02 | Informational | Remote branches `master`, `dev`, and `stg` still hold the legacy tree until this work is merged | Owner decision |
 
 ## Not verified
 
 - The GitHub Actions workflow has not run on GitHub; the same script was run locally.
-- Secret scanning used targeted patterns rather than a dedicated scanner.
+- Only JDK 17 was tested.
+- Whether the build ever reached the vulnerable `plexus-utils` code path before F-08 was fixed.
+- OSV reports only published advisories. A clean result does not prove the absence of vulnerabilities.

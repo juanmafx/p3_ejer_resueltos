@@ -15,7 +15,7 @@ class ValidationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"", "   ", "a\u001b[31m", "a\nb", "a\u202Eb", "a\u200Bb", "a\u2028b"})
+    @ValueSource(strings = {"", "   ", "a\u001b[31m", "a\nb", "a\u202Eb", "a\u200Bb", "a\u2028b", "\u00A0", "\u2007\u202F"})
     void rejectsUnsafeLabels(String value) {
         assertThrows(IllegalArgumentException.class, () -> Validation.requireLabel(value, "name"));
     }

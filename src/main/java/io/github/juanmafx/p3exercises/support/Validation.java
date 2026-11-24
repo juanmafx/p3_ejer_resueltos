@@ -8,7 +8,7 @@ public final class Validation {
     }
 
     public static String requireLabel(String value, String field) {
-        if (value == null || value.isBlank()) {
+        if (value == null || value.codePoints().allMatch(Validation::isSpace)) {
             throw new IllegalArgumentException(field + " must not be blank");
         }
         String stripped = value.strip();
@@ -33,6 +33,10 @@ public final class Validation {
             throw new IllegalArgumentException(field + " must be greater than " + min + " and at most " + max);
         }
         return value;
+    }
+
+    private static boolean isSpace(int codePoint) {
+        return Character.isWhitespace(codePoint) || Character.isSpaceChar(codePoint);
     }
 
     private static boolean isUnsafeCodePoint(int codePoint) {

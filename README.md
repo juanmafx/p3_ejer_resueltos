@@ -59,7 +59,7 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for design decisions and comple
 
 ## Quick start
 
-Requirements: JDK 17 or later, Python 3, and `curl`. Maven 3.10.2 is downloaded on first use and verified against a pinned SHA-512 checksum.
+Requirements: JDK 17 (the only version tested), Python 3 with SQLite 3.37 or later, and `curl`. Maven 3.10.2 is downloaded on first use and verified against a pinned SHA-512 checksum.
 
 ```bash
 ./scripts/run-tests.sh
@@ -93,7 +93,7 @@ Owls,673,0.1346,0.1254,0.1443
 
 These figures come from hypothetical input rates. They are an illustration of the method and do not predict any real competition.
 
-Exit codes: `0` for success and `2` for invalid usage. Body mass index is an arithmetic exercise and is not medical advice.
+Exit codes: `0` for success and `2` for invalid usage. Invalid usage writes nothing to standard output. Body mass index is an arithmetic exercise and is not medical advice.
 
 ## Configuration
 
@@ -105,9 +105,11 @@ The tool reads no configuration files, environment variables, or network resourc
 | Grades | Integers from 0 to 10, 64 per student |
 | Regular standing | Average of at least 4 |
 | Teams | 2 to 64 |
-| CLI simulation runs | 100,000, and at most 20,000,000 simulated matches |
+| Simulation runs | 100,000 in the CLI, 1,000,000 in the library |
+| Simulated matches | 20,000,000 per simulation, in the CLI and the library |
 | Team goal rate | Greater than 0, at most 10 |
 | Home advantage | Greater than 0, at most 3 |
+| Numeric arguments | Plain decimal notation, 40 characters at most |
 
 The tooling honors `MAVEN_TOOLS_DIR` for the Maven install location and the standard `MAVEN_ARGS`.
 
@@ -121,6 +123,8 @@ The tooling honors `MAVEN_TOOLS_DIR` for the Maven install location and the stan
 sqlite3 p3.db < db/schema.sql
 ```
 
+The schema uses `STRICT` tables, which require SQLite 3.37 or later. SQLite enforces foreign keys per connection, so run `PRAGMA foreign_keys = ON` on every connection that writes data.
+
 ## Testing
 
 ```bash
@@ -131,10 +135,10 @@ The suite combines JUnit 5 example tests, jqwik property-based tests with fixed 
 
 ## Security notes
 
-The tool has no network access, authentication, stored data, or runtime dependencies. Input is validated and bounded, and terminal and spreadsheet output is protected against injection. See [SECURITY.md](SECURITY.md) and [docs/SECURITY_AUDIT.md](docs/SECURITY_AUDIT.md).
+The tool has no network access, authentication, stored data, or runtime dependencies. Input is validated and bounded. Labels containing control or format characters are rejected, and CSV cells that start with a formula character are prefixed so spreadsheets treat them as text. See [SECURITY.md](SECURITY.md) and [docs/SECURITY_AUDIT.md](docs/SECURITY_AUDIT.md).
 
 ## Attribution and license
 
-The exercises derive from a programming course whose name and institution are not recorded in the repository. "p3" appears to abbreviate the course title. Exercise statements and the control-flow demo belong to their original authors and are not presented as original work. The implementation in this repository was written by Juan Manuel Ramallo, with the 2026 modernization prepared with AI assistance.
+The exercises derive from a programming course whose name and institution are not recorded in the repository. "p3" appears to abbreviate the course title. Exercise statements, and the control-flow demo that appears to be course material, belong to their original authors and are not presented as original work. The 2019 solutions were committed by Juan Manuel Ramallo. The 2026 rewrite was prepared with AI assistance and committed under his name.
 
 No license has been declared, so default copyright applies.
