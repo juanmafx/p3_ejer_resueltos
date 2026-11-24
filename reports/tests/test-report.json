@@ -1,0 +1,131 @@
+{
+  "generated_at_utc": "2026-11-24T02:12:48Z",
+  "parent_commit": "9c8664e",
+  "command": "./scripts/run-tests.sh",
+  "environment": {
+    "java": "OpenJDK Runtime Environment (build 17.0.21.1+2-1-26.04.1-Ubuntu)",
+    "maven": "Apache Maven 3.10.2 (61b8bc355f4c4325463c22aa9afe4e7811a290f8)",
+    "python": "3.14.4",
+    "sqlite": "3.46.1"
+  },
+  "totals": {
+    "tests": 108,
+    "passed": 108,
+    "failed": 0,
+    "skipped": 0
+  },
+  "suites": [
+    {
+      "suite": "cli.ApplicationTest",
+      "tests": 23,
+      "passed": 23,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "domain.calendar.GregorianCalendarMathTest",
+      "tests": 6,
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "domain.controlflow.LoopTraceTest",
+      "tests": 3,
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "domain.grading.GradeBookTest",
+      "tests": 7,
+      "passed": 7,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "domain.person.PersonTest",
+      "tests": 6,
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "domain.statistics.RunningStatisticsTest",
+      "tests": 3,
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "domain.statistics.WilsonIntervalTest",
+      "tests": 5,
+      "passed": 5,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "domain.tournament.MatchResultTest",
+      "tests": 5,
+      "passed": 5,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "domain.tournament.PoissonSamplerTest",
+      "tests": 4,
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "domain.tournament.RoundRobinSchedulerTest",
+      "tests": 4,
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "domain.tournament.StandingsTest",
+      "tests": 3,
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "domain.tournament.TournamentSimulatorTest",
+      "tests": 6,
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "domain.validation.PositiveNumbersTest",
+      "tests": 11,
+      "passed": 11,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "domain.vehicle.VehicleTest",
+      "tests": 4,
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "support.ValidationTest",
+      "tests": 9,
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "db.tests.test_schema",
+      "tests": 9,
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0
+    }
+  ]
+}

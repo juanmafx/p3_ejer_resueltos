@@ -1,0 +1,13 @@
+target/
+.tools/
+.jqwik-database
+__pycache__/
+*.class
+*.log
+.idea/
+.vscode/
+nbproject/private/
+.env
+.env.*
+*.pem
+*.key
