@@ -2,7 +2,7 @@
 
 This project follows [Semantic Versioning](https://semver.org/) and the [Keep a Changelog](https://keepachangelog.com/) format.
 
-## [1.0.0] - 2026-11-23
+## [1.0.0] - 2026-11-24
 
 First versioned release, and a complete rewrite of the unversioned 2019 exercises.
 
@@ -33,6 +33,9 @@ First versioned release, and a complete rewrite of the unversioned 2019 exercise
 - Person initializers were void methods and copied the first name into the last name.
 - Person summary printed the birth year labeled as age.
 - Positive number validation accepted zero.
+- Failed `leap-year` and `person` commands no longer write partial output.
+- Numeric arguments no longer accept Java-only forms such as `1d` or `0x1p3`.
+- Labels made only of Unicode space characters are rejected as blank.
 
 ### Security
 
@@ -40,6 +43,10 @@ First versioned release, and a complete rewrite of the unversioned 2019 exercise
 - Removed personal details from sample code.
 - Added input bounds and protection against terminal and CSV injection.
 - Pinned the build toolchain and CI actions.
+- Overrode `plexus-utils` in the clean and resources plugins to fixed versions (CVE-2025-67030).
+- Enforced the total simulated match budget in the library as well as the CLI.
+- Extended CSV formula protection to full-width prefix characters.
+- CI no longer publishes the committed test report when a run fails.
 
 ### Removed
 

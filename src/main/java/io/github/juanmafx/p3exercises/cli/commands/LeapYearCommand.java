@@ -23,8 +23,8 @@ final class LeapYearCommand implements Command {
     @Override
     public void execute(List<String> args, CommandContext context) {
         Arguments.requireCount(args, 1, MAX_YEARS);
-        for (String token : args) {
-            int year = Arguments.parseInt(token, "year");
+        int[] years = args.stream().mapToInt(token -> Arguments.parseInt(token, "year")).toArray();
+        for (int year : years) {
             String verdict = GregorianCalendarMath.isLeapYear(year) ? "is" : "is not";
             context.out().println(year + " " + verdict + " a leap year");
         }

@@ -22,8 +22,13 @@ jobs:
           java-version: "17"
       - run: ./scripts/run-tests.sh
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
-        if: always()
         with:
           name: test-report
           path: reports/tests/
           if-no-files-found: error
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: failure()
+        with:
+          name: surefire-reports
+          path: target/surefire-reports/
+          if-no-files-found: warn

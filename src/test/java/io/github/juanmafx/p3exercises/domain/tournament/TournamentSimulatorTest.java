@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
+import java.util.stream.IntStream;
 import net.jqwik.api.ForAll;
 import net.jqwik.api.Property;
 import net.jqwik.api.constraints.IntRange;
@@ -63,6 +64,14 @@ class TournamentSimulatorTest {
         assertThrows(IllegalArgumentException.class, () -> new SimulationConfig(
                 List.of(new TeamStrength("A", 1), new TeamStrength("A", 2)), 1, 10, 1));
         assertThrows(IllegalArgumentException.class, () -> new TeamStrength("A", 0));
+    }
+
+    @Test
+    void configurationEnforcesTotalMatchBudget() {
+        List<TeamStrength> teams = IntStream.range(0, 64)
+                .mapToObj(index -> new TeamStrength("Team" + index, 1))
+                .toList();
+        assertThrows(IllegalArgumentException.class, () -> new SimulationConfig(teams, 1, 1_000_000, 1));
     }
 
     @Property(tries = 25, seed = "20260119")

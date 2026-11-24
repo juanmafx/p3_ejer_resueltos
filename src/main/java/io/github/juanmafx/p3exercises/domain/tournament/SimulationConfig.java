@@ -7,11 +7,15 @@ public record SimulationConfig(List<TeamStrength> teams, double homeAdvantage, i
 
     public static final int MAX_RUNS = 1_000_000;
     public static final double MAX_HOME_ADVANTAGE = 3.0;
+    public static final long MAX_TOTAL_MATCHES = 20_000_000L;
 
     public SimulationConfig {
         teams = List.copyOf(teams);
         TeamRoster.validated(teams.stream().map(TeamStrength::team).toList());
         Validation.requireOpenClosedRange(homeAdvantage, 0, MAX_HOME_ADVANTAGE, "homeAdvantage");
         Validation.requireRange(runs, 1, MAX_RUNS, "runs");
+        if ((long) runs * teams.size() * (teams.size() - 1) > MAX_TOTAL_MATCHES) {
+            throw new IllegalArgumentException("simulation exceeds " + MAX_TOTAL_MATCHES + " matches");
+        }
     }
 }

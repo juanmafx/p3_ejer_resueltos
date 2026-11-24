@@ -13,9 +13,11 @@
     <maven.compiler.release>17</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <project.build.outputTimestamp>2026-11-23T00:00:00Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2026-11-24T00:00:00Z</project.build.outputTimestamp>
     <junit.version>5.14.4</junit.version>
     <jqwik.version>1.10.2</jqwik.version>
+    <plexus-utils.3x.version>3.6.1</plexus-utils.3x.version>
+    <plexus-utils.4x.version>4.0.3</plexus-utils.4x.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -45,8 +47,8 @@
     <finalName>p3-exercises-${project.version}</finalName>
     <pluginManagement>
       <plugins>
-        <plugin><artifactId>maven-clean-plugin</artifactId><version>3.5.0</version></plugin>
-        <plugin><artifactId>maven-resources-plugin</artifactId><version>3.5.0</version></plugin>
+        <plugin><artifactId>maven-clean-plugin</artifactId><version>3.5.0</version><dependencies><dependency><groupId>org.codehaus.plexus</groupId><artifactId>plexus-utils</artifactId><version>${plexus-utils.4x.version}</version></dependency></dependencies></plugin>
+        <plugin><artifactId>maven-resources-plugin</artifactId><version>3.5.0</version><dependencies><dependency><groupId>org.codehaus.plexus</groupId><artifactId>plexus-utils</artifactId><version>${plexus-utils.3x.version}</version></dependency></dependencies></plugin>
         <plugin><artifactId>maven-install-plugin</artifactId><version>3.2.0</version></plugin>
         <plugin><artifactId>maven-deploy-plugin</artifactId><version>3.2.0</version></plugin>
       </plugins>

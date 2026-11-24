@@ -22,5 +22,6 @@ Run `./scripts/run-tests.sh`. The committed result of the real run is in [report
 - The simulation model is illustrative and has not been calibrated against real data.
 - The optional database schema is not connected to the CLI.
 - The CI workflow has not yet run on GitHub.
+- Only JDK 17 has been tested.
 - No license has been declared.
 - Git history retains minor personal metadata, described in [docs/SECURITY_AUDIT.md](docs/SECURITY_AUDIT.md).

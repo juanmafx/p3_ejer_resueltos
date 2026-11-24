@@ -7,6 +7,7 @@ import io.github.juanmafx.p3exercises.domain.person.BodyMetrics;
 import io.github.juanmafx.p3exercises.domain.person.Person;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 final class PersonCommand implements Command {
 
@@ -26,13 +27,14 @@ final class PersonCommand implements Command {
             throw new IllegalArgumentException("wrong number of arguments");
         }
         Person person = new Person(args.get(0), args.get(1), Arguments.parseInt(args.get(2), "birthYear"));
-        context.out().println(person.fullName() + ", age reached in " + context.currentYear() + ": "
-                + person.ageReachedIn(context.currentYear()));
-        if (args.size() == 5) {
-            BodyMetrics metrics = new BodyMetrics(
-                    Arguments.parseDouble(args.get(3), "heightMeters"),
-                    Arguments.parseDouble(args.get(4), "weightKilograms"));
-            context.out().println(String.format(Locale.ROOT, "Body mass index: %.2f", metrics.bodyMassIndex()));
-        }
+        int age = person.ageReachedIn(context.currentYear());
+        Optional<BodyMetrics> metrics = args.size() == 5
+                ? Optional.of(new BodyMetrics(
+                        Arguments.parseDouble(args.get(3), "heightMeters"),
+                        Arguments.parseDouble(args.get(4), "weightKilograms")))
+                : Optional.empty();
+        context.out().println(person.fullName() + ", age reached in " + context.currentYear() + ": " + age);
+        metrics.ifPresent(value -> context.out().println(
+                String.format(Locale.ROOT, "Body mass index: %.2f", value.bodyMassIndex())));
     }
 }
