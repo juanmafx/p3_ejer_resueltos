@@ -1,4 +1,4 @@
-# p3_ejer_resueltos
+# java-algorithms-lab
 
 A tested Java 17 library and command-line tool built from a set of solved introductory programming exercises, extended with correct algorithms, a seeded tournament simulation, and statistical verification.
 
